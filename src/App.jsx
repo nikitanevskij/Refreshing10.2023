@@ -3,6 +3,7 @@ import { Header } from "./components/Header";
 import { PizzaBlock } from "./components/PizzaBlock";
 import { Sort } from "./components/Sort";
 import "./scss/app.scss";
+import pizzas from "../src/assets/pizzas.json";
 
 const App = () => (
   <div className="wrapper">
@@ -15,11 +16,9 @@ const App = () => (
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">
-          <PizzaBlock />
-          <PizzaBlock />
-          <PizzaBlock />
-          <PizzaBlock />
-          <PizzaBlock />
+          {pizzas.map((obj, index) => (
+            <PizzaBlock key={index} {...obj} />
+          ))}
         </div>
       </div>
     </div>
