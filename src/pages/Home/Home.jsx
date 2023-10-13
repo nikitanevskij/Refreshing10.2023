@@ -4,10 +4,11 @@ import { Categories } from "../../components/Categories";
 import { Sort } from "../../components/Sort";
 import { PizzaBlock } from "../../components/PizzaBlock";
 import Sceleton from "../../components/Sceleton";
+import { SearchContext } from "../../App";
 
-export const Home = ({ searchValue }) => {
+export const Home = () => {
   const [pizzas, setPizzas] = React.useState([]);
-
+  const { searchValue } = React.useContext(SearchContext);
   // const pizzasSearch = pizzas.filter((item) =>
   //   item.name.toLowerCase().includes(searchValue.toLowerCase()),
   // );
