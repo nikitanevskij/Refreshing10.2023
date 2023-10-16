@@ -12,6 +12,7 @@ const initialState = {
     { name: "алфавиту (desc)", searchName: "name", order: "desc" },
   ],
   activeSort: 0,
+  searchValue: "",
 };
 
 export const filterSlice = createSlice({
@@ -24,9 +25,12 @@ export const filterSlice = createSlice({
     setActiveSort: (state, action) => {
       state.activeSort = action.payload;
     },
+    setSearchValue: (state, action) => {
+      state.searchValue = action.payload;
+    },
   },
 });
 
-export const { setCategories, setActiveSort } = filterSlice.actions;
+export const { setCategories, setActiveSort, setSearchValue } = filterSlice.actions;
 
 export default filterSlice.reducer;

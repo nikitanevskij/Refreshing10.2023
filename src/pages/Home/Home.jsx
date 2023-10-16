@@ -4,14 +4,14 @@ import { Categories } from "../../components/Categories";
 import { Sort } from "../../components/Sort";
 import { PizzaBlock } from "../../components/PizzaBlock";
 import Sceleton from "../../components/Sceleton";
-import { SearchContext } from "../../App";
 
 export const Home = () => {
   const [pizzas, setPizzas] = React.useState([]);
   const [isLoading, setLoading] = React.useState(false);
 
-  const { searchValue } = React.useContext(SearchContext);
-  const { activeCategory, sort, activeSort } = useSelector((state) => state.filterSlice);
+  const { activeCategory, sort, activeSort, searchValue } = useSelector(
+    (state) => state.filterSlice,
+  );
 
   const sortBy = sort[activeSort].searchName;
   const order = sort[activeSort].order;
