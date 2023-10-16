@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useSelector } from "react-redux";
 import { Categories } from "../../components/Categories";
 import { Sort } from "../../components/Sort";
 import { PizzaBlock } from "../../components/PizzaBlock";
@@ -8,31 +8,14 @@ import { SearchContext } from "../../App";
 
 export const Home = () => {
   const [pizzas, setPizzas] = React.useState([]);
-  const { searchValue } = React.useContext(SearchContext);
-  // const pizzasSearch = pizzas.filter((item) =>
-  //   item.name.toLowerCase().includes(searchValue.toLowerCase()),
-  // );
-  // console.log(pizzasSearch);
-
   const [isLoading, setLoading] = React.useState(false);
 
-  const [activeCategories, setAactiveCategories] = React.useState(0);
-  const onClickCategory = (index) => {
-    setAactiveCategories(index);
-  };
-  const [activeSort, setActiveSort] = React.useState(0);
-  const sort = [
-    { name: "популярности (ask)", searchName: "rating", order: "desc" },
-    { name: "популярности (desc)", searchName: "rating", order: "ask" },
-    { name: "цене (ask)", searchName: "price", order: "ask" },
-    { name: "цене (desc)", searchName: "price", order: "desc" },
-    { name: "алфавиту (ask)", searchName: "name", order: "ask" },
-    { name: "алфавиту (desc)", searchName: "name", order: "desc" },
-  ];
+  const { searchValue } = React.useContext(SearchContext);
+  const { activeCategory, sort, activeSort } = useSelector((state) => state.filterSlice);
 
   const sortBy = sort[activeSort].searchName;
   const order = sort[activeSort].order;
-  const category = activeCategories === 0 ? "" : `&category=${activeCategories}`;
+  const category = activeCategory === 0 ? "" : `&category=${activeCategory}`;
   const loadPizzas = (items) => {
     setPizzas(items);
     setLoading(true);
@@ -45,13 +28,13 @@ export const Home = () => {
       .then((res) => res.json())
       .then((json) => loadPizzas(json.items));
     window.scrollTo(0, 0);
-  }, [activeCategories, activeSort, sortBy, order, searchValue, category]);
+  }, [searchValue, category, sortBy, order]);
 
   return (
     <div>
       <div className="content__top">
-        <Categories activeCategories={activeCategories} onClickCategory={onClickCategory} />
-        <Sort sort={sort} activeSort={activeSort} setActiveSort={setActiveSort} />
+        <Categories />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

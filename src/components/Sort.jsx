@@ -1,10 +1,14 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setActiveSort } from "../redux/filterSlice";
 
-export const Sort = ({ sort, activeSort, setActiveSort }) => {
+export const Sort = () => {
   const [visiblePopup, setVisiblePopup] = React.useState(false);
+  const { sort, activeSort } = useSelector((state) => state.filterSlice);
+  const dispatch = useDispatch();
 
   const changeType = (index) => {
-    setActiveSort(index);
+    dispatch(setActiveSort(index));
     setVisiblePopup(!visiblePopup);
   };
   return (
