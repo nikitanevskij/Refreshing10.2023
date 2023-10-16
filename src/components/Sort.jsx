@@ -6,13 +6,24 @@ export const Sort = () => {
   const [visiblePopup, setVisiblePopup] = React.useState(false);
   const { sort, activeSort } = useSelector((state) => state.filterSlice);
   const dispatch = useDispatch();
-
+  const sortRef = React.useRef();
   const changeType = (index) => {
     dispatch(setActiveSort(index));
     setVisiblePopup(!visiblePopup);
   };
+
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        setVisiblePopup(false);
+      }
+    };
+    document.body.addEventListener("click", handleClickOutside);
+    return () => document.body.removeEventListener("click", handleClickOutside);
+  }, []);
+
   return (
-    <div className="sort">
+    <div className="sort" ref={sortRef}>
       <div className="sort__label">
         <svg
           className={visiblePopup ? "rotated" : " "}

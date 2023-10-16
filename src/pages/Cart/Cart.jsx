@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import CartItem from "./CartItem";
+import { useSelector } from "react-redux";
 
 export const Cart = () => {
+  const { totalPrice, totalCount } = useSelector((state) => state.cartSlice);
+
   return (
     <div className="container container--cart">
       <div className="cart">
@@ -85,10 +88,10 @@ export const Cart = () => {
         <div className="cart__bottom">
           <div className="cart__bottom-details">
             <span>
-              Всего пицц: <b>0 шт.</b>
+              Всего пицц: <b>{totalCount} шт.</b>
             </span>
             <span>
-              Сумма заказа: <b>0 ₽</b>
+              Сумма заказа: <b>{totalPrice} ₽</b>
             </span>
           </div>
           <div className="cart__bottom-buttons">
