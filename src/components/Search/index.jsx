@@ -6,6 +6,12 @@ import { setSearchValue } from "../../redux/filterSlice";
 export const Search = () => {
   const { searchValue } = useSelector((state) => state.filterSlice);
   const dispatch = useDispatch();
+  const inputRef = React.useRef();
+
+  const clearInput = () => {
+    dispatch(setSearchValue(""));
+    inputRef.current.focus();
+  };
 
   return (
     <div className={style.root}>
@@ -13,6 +19,7 @@ export const Search = () => {
         <path d="M29.71,28.29l-6.5-6.5-.07,0a12,12,0,1,0-1.39,1.39s0,.05,0,.07l6.5,6.5a1,1,0,0,0,1.42,0A1,1,0,0,0,29.71,28.29ZM14,24A10,10,0,1,1,24,14,10,10,0,0,1,14,24Z" />
       </svg>
       <input
+        ref={inputRef}
         value={searchValue}
         onChange={(e) => dispatch(setSearchValue(e.target.value))}
         className={style.input}
@@ -21,7 +28,7 @@ export const Search = () => {
 
       {searchValue && (
         <svg
-          onClick={() => dispatch(setSearchValue(""))}
+          onClick={clearInput}
           className={style.clearIcon}
           viewBox="0 0 200 200"
           xmlns="http://www.w3.org/2000/svg"

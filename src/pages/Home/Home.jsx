@@ -4,6 +4,7 @@ import { Categories } from "../../components/Categories";
 import { Sort } from "../../components/Sort";
 import { PizzaBlock } from "../../components/PizzaBlock";
 import Sceleton from "../../components/Sceleton";
+import axios from "axios";
 
 export const Home = () => {
   const [pizzas, setPizzas] = React.useState([]);
@@ -22,11 +23,11 @@ export const Home = () => {
   };
   React.useEffect(() => {
     setLoading(false);
-    fetch(
-      `https://634fde2edf22c2af7b5c5141.mockapi.io/items?search=${searchValue}${category}&sortBy=${sortBy}&order=${order}`,
-    )
-      .then((res) => res.json())
-      .then((json) => loadPizzas(json.items));
+    axios
+      .get(
+        `https://634fde2edf22c2af7b5c5141.mockapi.io/items?search=${searchValue}${category}&sortBy=${sortBy}&order=${order}`,
+      )
+      .then((res) => loadPizzas(res.data.items));
     window.scrollTo(0, 0);
   }, [searchValue, category, sortBy, order]);
 
