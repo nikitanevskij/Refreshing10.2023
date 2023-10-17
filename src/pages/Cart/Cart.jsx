@@ -4,8 +4,8 @@ import CartItem from "./CartItem";
 import { useSelector } from "react-redux";
 
 export const Cart = () => {
-  const { totalPrice, totalCount } = useSelector((state) => state.cartSlice);
-
+  const { items, totalPrice, totalCount } = useSelector((state) => state.cartSlice);
+  console.log(items);
   return (
     <div className="container container--cart">
       <div className="cart">
@@ -83,7 +83,9 @@ export const Cart = () => {
           </div>
         </div>
         <div className="content__items">
-          <CartItem />
+          {items.map((item, index) => (
+            <CartItem {...item} key={index} />
+          ))}
         </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">

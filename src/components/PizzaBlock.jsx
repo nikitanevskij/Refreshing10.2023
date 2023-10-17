@@ -1,12 +1,27 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { addItems } from "../redux/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addProduct } from "../redux/cartSlice";
 
 export const PizzaBlock = ({ id, imageUrl, name, types, sizes, price, category, rating }) => {
   const dispatch = useDispatch();
+  const addedPizzas = useSelector((state) => state.cartSlice.items.find((item) => item.id === id));
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
   const typeNames = ["тонкое", "традиционное"];
+
+  const count = addedPizzas ? addedPizzas.count : 0;
+
+  const onClickAdd = () => {
+    const item = {
+      id,
+      name,
+      price,
+      imageUrl,
+      types: typeNames[activeType],
+      sizes: sizes[activeSize],
+    };
+    dispatch(addProduct(item));
+  };
   return (
     <div className="pizza-block">
       <img className="pizza-block__image" src={imageUrl} alt={name} />
@@ -37,21 +52,7 @@ export const PizzaBlock = ({ id, imageUrl, name, types, sizes, price, category, 
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <div
-          className="button button--outline button--add"
-          onClick={() =>
-            dispatch(
-              addItems({
-                id,
-                imageUrl,
-                name,
-                types: typeNames[activeType],
-                sizes: sizes[activeSize],
-                price,
-              }),
-            )
-          }
-        >
+        <div className="button button--outline button--add" onClick={onClickAdd}>
           <svg
             width="12"
             height="12"
@@ -65,7 +66,7 @@ export const PizzaBlock = ({ id, imageUrl, name, types, sizes, price, category, 
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
+          {count > 0 ? <i>{count}</i> : " "}
         </div>
       </div>
     </div>
