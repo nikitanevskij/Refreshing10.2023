@@ -1,33 +1,24 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Categories } from "../../components/Categories";
 import { Sort } from "../../components/Sort";
 import { PizzaBlock } from "../../components/PizzaBlock";
 import Sceleton from "../../components/Sceleton";
-import axios from "axios";
+import { fetchPizzas } from "../../redux/pizzaSlice";
 
 export const Home = () => {
-  const [pizzas, setPizzas] = React.useState([]);
-  const [isLoading, setLoading] = React.useState(false);
-
+  const dispatch = useDispatch();
   const { activeCategory, sort, activeSort, searchValue } = useSelector(
     (state) => state.filterSlice,
   );
+  const { pizzas, loading } = useSelector((state) => state.pizzaSlice);
 
   const sortBy = sort[activeSort].searchName;
   const order = sort[activeSort].order;
   const category = activeCategory === 0 ? "" : `&category=${activeCategory}`;
-  const loadPizzas = (items) => {
-    setPizzas(items);
-    setLoading(true);
-  };
+
   React.useEffect(() => {
-    setLoading(false);
-    axios
-      .get(
-        `https://634fde2edf22c2af7b5c5141.mockapi.io/items?search=${searchValue}${category}&sortBy=${sortBy}&order=${order}`,
-      )
-      .then((res) => loadPizzas(res.data.items));
+    dispatch(fetchPizzas({ searchValue, category, sortBy, order }));
     window.scrollTo(0, 0);
   }, [searchValue, category, sortBy, order]);
 
@@ -39,7 +30,7 @@ export const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {isLoading
+        {!loading
           ? pizzas.map((obj, index) => <PizzaBlock key={index} {...obj} />)
           : [...new Array(8)].map((_, index) => <Sceleton key={index} />)}
       </div>
