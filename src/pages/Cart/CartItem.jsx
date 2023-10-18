@@ -1,6 +1,16 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { addProduct, minusPizza, removeItem } from "../../redux/cartSlice";
 
-const CartItem = ({ id, imageUrl, name, type, size, count, price }) => {
+const CartItem = ({ id, imageUrl, name, types, sizes, count, price }) => {
+  const dispatch = useDispatch();
+  const onClickAdd = () => {
+    const item = {
+      id,
+    };
+    dispatch(addProduct(item));
+  };
+
   return (
     <div className="cart__item">
       <div className="cart__item-img">
@@ -9,13 +19,14 @@ const CartItem = ({ id, imageUrl, name, type, size, count, price }) => {
       <div className="cart__item-info">
         <h3>{name}</h3>
         <p>
-          {type} тесто, {size} см.
+          {types} тесто, {sizes} см.
         </p>
       </div>
       <div className="cart__item-count">
         <button
           disabled={count === 1}
           className="button button--outline button--circle cart__item-count-minus"
+          onClick={() => dispatch(minusPizza(id))}
         >
           <svg
             width="10"
@@ -35,7 +46,10 @@ const CartItem = ({ id, imageUrl, name, type, size, count, price }) => {
           </svg>
         </button>
         <b>{count}</b>
-        <button className="button button--outline button--circle cart__item-count-plus">
+        <button
+          className="button button--outline button--circle cart__item-count-plus"
+          onClick={onClickAdd}
+        >
           <svg
             width="10"
             height="10"
@@ -58,7 +72,10 @@ const CartItem = ({ id, imageUrl, name, type, size, count, price }) => {
         <b>{price * count} ₽</b>
       </div>
       <div className="cart__item-remove">
-        <div className="button button--outline button--circle">
+        <div
+          className="button button--outline button--circle"
+          onClick={() => dispatch(removeItem(id))}
+        >
           <svg
             width="10"
             height="10"

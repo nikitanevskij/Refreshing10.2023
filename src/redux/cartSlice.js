@@ -19,15 +19,26 @@ export const cartSlice = createSlice({
       state.totalPrice = state.items.reduce((sum, item) => item.price * item.count + sum, 0);
       state.totalCount = state.items.length;
     },
+    minusPizza: (state, action) => {
+      const pizza = state.items.find((item) => item.id === action.payload);
+      if (pizza) {
+        pizza.count--;
+      }
+      state.totalPrice = state.items.reduce((sum, item) => item.price * item.count + sum, 0);
+    },
     removeItem: (state, action) => {
-      state.items.filter((obj) => obj.id !== action.payload.id);
+      state.items = state.items.filter((obj) => obj.id !== action.payload);
+      state.totalPrice = state.items.reduce((sum, item) => item.price * item.count + sum, 0);
+      state.totalCount = state.items.length;
     },
     clearItem: (state) => {
       state.items = [];
+      state.totalCount = 0;
+      state.totalPrice = 0;
     },
   },
 });
 
-export const { addProduct, clearItem, removeItem } = cartSlice.actions;
+export const { addProduct, clearItem, removeItem, minusPizza } = cartSlice.actions;
 
 export default cartSlice.reducer;
