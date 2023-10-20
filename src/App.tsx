@@ -7,7 +7,7 @@ import { Cart } from "./pages/Cart/Cart";
 import { Header } from "./components/Header";
 import { NotFound } from "./pages/NotFound/NotFound";
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <div className="wrapper">
       <Header />

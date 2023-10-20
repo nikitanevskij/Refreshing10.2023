@@ -17,8 +17,8 @@ export const PizzaBlock = ({ id, imageUrl, name, types, sizes, price, category, 
       name,
       price,
       imageUrl,
-      types: typeNames[activeType],
-      sizes: sizes[activeSize],
+      type: typeNames[activeType],
+      size: sizes[activeSize],
     };
     dispatch(addProduct(item));
   };
