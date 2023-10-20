@@ -52,7 +52,7 @@ const CartItem: React.FC<CartItemProp> = ({ id, imageUrl, name, type, size, coun
         <b>{count}</b>
         <button
           className="button button--outline button--circle cart__item-count-plus"
-          onClick={() => dispatch(addProduct({ id }))}
+          onClick={() => dispatch(addProduct({ id, imageUrl, name, type, size, count, price }))}
         >
           <svg
             width="10"

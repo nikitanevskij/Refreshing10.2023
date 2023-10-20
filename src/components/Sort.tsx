@@ -1,19 +1,20 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setActiveSort } from "../redux/filterSlice";
+import { RootState } from "../redux/store";
 
-export const Sort = () => {
+export const Sort: React.FC = () => {
   const [visiblePopup, setVisiblePopup] = React.useState(false);
-  const { sort, activeSort } = useSelector((state) => state.filterSlice);
+  const { sort, activeSort } = useSelector((state: RootState) => state.filterSlice);
   const dispatch = useDispatch();
-  const sortRef = React.useRef();
-  const changeType = (index) => {
+  const sortRef = React.useRef<HTMLDivElement>(null);
+  const changeType = (index: number) => {
     dispatch(setActiveSort(index));
     setVisiblePopup(!visiblePopup);
   };
 
   React.useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (!event.composedPath().includes(sortRef.current)) {
         setVisiblePopup(false);
       }

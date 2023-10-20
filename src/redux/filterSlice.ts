@@ -1,6 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+type TSort = {
+  name: string;
+  searchName: string;
+  order: string;
+};
+
+interface IFilterSliceState {
+  categories: string[];
+  activeCategory: number;
+  sort: TSort[];
+  activeSort: number;
+  searchValue: string;
+}
+
+const initialState: IFilterSliceState = {
   categories: ["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"],
   activeCategory: 0,
   sort: [
@@ -19,13 +33,13 @@ export const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
-    setCategories: (state, action) => {
+    setCategories: (state, action: PayloadAction<number>) => {
       state.activeCategory = action.payload;
     },
-    setActiveSort: (state, action) => {
+    setActiveSort: (state, action: PayloadAction<number>) => {
       state.activeSort = action.payload;
     },
-    setSearchValue: (state, action) => {
+    setSearchValue: (state, action: PayloadAction<string>) => {
       state.searchValue = action.payload;
     },
   },
