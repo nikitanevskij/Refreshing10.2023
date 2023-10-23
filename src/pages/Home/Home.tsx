@@ -5,25 +5,24 @@ import { Sort } from "../../components/Sort";
 import { PizzaBlock } from "../../components/PizzaBlock";
 import Sceleton from "../../components/Sceleton";
 import { fetchPizzas } from "../../redux/pizzaSlice";
-import { RootState } from "../../redux/store";
+import { RootState, useAppDispatch } from "../../redux/store";
 
 export const Home: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { activeCategory, sort, activeSort, searchValue } = useSelector(
     (state: RootState) => state.filterSlice,
   );
-  //@ts-ignore
-  const { pizzas, loading } = useSelector((state) => state.pizzaSlice);
+
+  const { pizzas, loading } = useSelector((state: RootState) => state.pizzaSlice);
 
   const sortBy = sort[activeSort].searchName;
   const order = sort[activeSort].order;
   const category = activeCategory === 0 ? "" : `&category=${activeCategory}`;
 
   React.useEffect(() => {
-    //@ts-ignore
     dispatch(fetchPizzas({ searchValue, category, sortBy, order }));
     window.scrollTo(0, 0);
-  }, [searchValue, category, sortBy, order]);
+  }, [searchValue, category, sortBy, order, dispatch]);
 
   return (
     <div>
