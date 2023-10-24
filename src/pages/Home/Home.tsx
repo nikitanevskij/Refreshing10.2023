@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Categories } from "../../components/Categories";
 import { Sort } from "../../components/Sort";
 import { PizzaBlock } from "../../components/PizzaBlock";
@@ -12,8 +12,9 @@ export const Home: React.FC = () => {
   const { activeCategory, sort, activeSort, searchValue } = useSelector(
     (state: RootState) => state.filterSlice,
   );
-
+  const isMounted = React.useRef(false);
   const { pizzas, loading } = useSelector((state: RootState) => state.pizzaSlice);
+  const { items } = useSelector((state: RootState) => state.cartSlice);
 
   const sortBy = sort[activeSort].searchName;
   const order = sort[activeSort].order;
@@ -24,6 +25,14 @@ export const Home: React.FC = () => {
     window.scrollTo(0, 0);
   }, [searchValue, category, sortBy, order, dispatch]);
 
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(items);
+      localStorage.setItem("cartItems", json);
+    }
+    isMounted.current = true;
+  }, [items]);
+
   return (
     <div>
       <div className="content__top">
@@ -33,8 +42,7 @@ export const Home: React.FC = () => {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {!loading
-          ? //@ts-ignore
-            pizzas.map((obj, index) => <PizzaBlock key={index} {...obj} />)
+          ? pizzas.map((obj, index) => <PizzaBlock key={index} {...obj} />)
           : [...new Array(8)].map((_, index) => <Sceleton key={index} />)}
       </div>
     </div>

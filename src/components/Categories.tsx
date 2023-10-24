@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setCategories } from "../redux/filterSlice";
 import { RootState } from "../redux/store";
 
-export const Categories: React.FC = () => {
+export const Categories: React.FC = React.memo(() => {
   const { categories, activeCategory } = useSelector((state: RootState) => state.filterSlice);
   const dispatch = useDispatch();
 
@@ -22,4 +22,4 @@ export const Categories: React.FC = () => {
       </ul>
     </div>
   );
-};
+});
